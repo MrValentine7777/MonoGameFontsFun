@@ -60,7 +60,7 @@ namespace MonoGameFontsFun
 
         /// <summary>
         /// Draws a sentence where the first letter is drawn enlarged,
-        /// with its bottom aligned with the baseline of the subsequent text (defined by font.LineSpacing),
+        /// with its bottom visually aligned with the baseline of the subsequent text (e.g., matching the bottom of a character like 'X'),
         /// and appropriate spacing is maintained.
         /// </summary>
         /// <param name="text">The full sentence to draw.</param>
@@ -78,6 +78,7 @@ namespace MonoGameFontsFun
             string restOfText = text.Substring(1);
 
             Vector2 normalFirstLetterSize = font.MeasureString(firstLetter); // Size of the first letter at normal scale
+            float referenceCharHeight = font.MeasureString("X").Y; // Height of a standard character like 'X' at normal scale, used for baseline alignment.
 
             // --- First Letter Drawing ---
             // Origin for the first letter: its bottom-left corner (unscaled).
@@ -85,8 +86,8 @@ namespace MonoGameFontsFun
 
             // Drawing position for the first letter:
             // X: Aligns with the overall text position.X.
-            // Y: Calculated so the bottom of the scaled letter aligns with the line's baseline (position.Y + font.LineSpacing).
-            Vector2 firstLetterDrawPosition = new Vector2(position.X, position.Y + font.LineSpacing);
+            // Y: Calculated so the bottom of the scaled letter aligns with the visual baseline of the rest of the text.
+            Vector2 firstLetterDrawPosition = new Vector2(position.X, position.Y + referenceCharHeight + 5); // adjust the 5 to fit your font dimensions
 
             _spriteBatch.DrawString(
                 font,
